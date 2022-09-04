@@ -1,0 +1,15 @@
+// This is a test class
+class Test {
+    field int x;
+    field string y;
+
+    constructor Test new(int Ax) {
+        let x = 3; // This is a comment for test.
+        let y = "test string";
+        return this;
+    }
+
+    method void test() {
+        return;
+    }
+}
