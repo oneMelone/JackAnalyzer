@@ -1,6 +1,7 @@
 package test
 
 import (
+	"fmt"
 	"io"
 	"onemelone/JackAnalyzer/tokenizer"
 	"os"
@@ -44,5 +45,10 @@ func TestTokenizer(t *testing.T) {
 	}
 	if testTokenizer.StringVal() != "test string" {
 		t.Fatalf("28th token is `test string`, but got %s", testTokenizer.StringVal())
+	}
+
+	printToken := tokenizer.NewTokenizer(bytes)
+	for printToken.Advance() {
+		fmt.Println(printToken.Token())
 	}
 }
