@@ -3,7 +3,6 @@ package parser
 import (
 	"onemelone/JackAnalyzer/node_type"
 	"onemelone/JackAnalyzer/tokenizer"
-	"onemelone/JackAnalyzer/util"
 )
 
 type Parser struct {
@@ -142,8 +141,6 @@ func (p *Parser) compileSubroutineDec() {
 	if p.inputTokenizer.Token() != "}" {
 		p.compileSubroutineDec()
 	}
-	// }
-	p.parseSymbol(subroutineDecNode)
 }
 
 func (p *Parser) compileParamList() {
@@ -434,6 +431,9 @@ func (p *Parser) compileReturn() {
 		Sons:     make([]*TreeNode, 0),
 	}
 	p.curNode.Sons = append(p.curNode.Sons, returnNode)
+	curNodeStore := p.curNode
+	p.curNode = returnNode
+
 	// return
 	p.parseKeyword(returnNode)
 
@@ -445,11 +445,9 @@ func (p *Parser) compileReturn() {
 		p.compileExpression()
 	}
 	// ;
-	returnNode.Sons = append(returnNode.Sons, &TreeNode{
-		NodeType: node_type.Symbol,
-		Value:    util.Str2Ptr(p.inputTokenizer.Symbol()),
-		Sons:     nil,
-	})
+	p.parseSymbol(returnNode)
+
+	p.curNode = curNodeStore
 	if p.inputTokenizer.Advance() {
 		p.branchStatementParse()
 	}
