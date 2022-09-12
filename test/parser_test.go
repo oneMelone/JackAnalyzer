@@ -1,6 +1,7 @@
 package test
 
 import (
+	"bufio"
 	"io"
 	"onemelone/JackAnalyzer/node_type"
 	"onemelone/JackAnalyzer/parser"
@@ -41,4 +42,11 @@ func TestParser(t *testing.T) {
 	if root.Sons[3].NodeType != node_type.ClassVarDec {
 		t.Fatalf("Third son should be class var dec, but got %d", root.Sons[3].NodeType)
 	}
+
+	outputFile, err := os.Create("output.xml")
+	if err != nil {
+		t.Fatalf("open output file error: %+v", err)
+	}
+
+	parser.OutputXML(bufio.NewWriter(outputFile), root, 0)
 }

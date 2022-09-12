@@ -80,6 +80,8 @@ func (t *Tokenizer) HasMoreTokens() bool {
 //	If advanced, return true; if no more token to advance, return false.
 func (t *Tokenizer) Advance() bool {
 	if !t.HasMoreTokens() {
+		t.currentToken = ""
+		t.currentTokenType = -1
 		return false
 	}
 
